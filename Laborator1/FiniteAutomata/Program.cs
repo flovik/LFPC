@@ -40,7 +40,6 @@ namespace FiniteAutomata
                 alphabet.Add(symbol);
             }
 
-
             //fill the transition function
             for (var i = 2; i < lines.Length; i++)
             {
