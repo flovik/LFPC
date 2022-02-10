@@ -1,7 +1,9 @@
-SaF
-FbF
-FcD
-SbS
-DcS
-Da
-Fa
+S,F,D
+a,b,c
+S>aF
+F>bF
+F>cD
+S>bS
+D>cS
+D>a
+F>a
