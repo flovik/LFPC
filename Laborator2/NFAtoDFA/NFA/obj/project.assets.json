@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UTM\\Anul 2\\Semestrul 4\\LFPC\\Laborator1\\FiniteAutomata\\FiniteAutomata.csproj",
-      "projectName": "FiniteAutomata",
-      "projectPath": "D:\\UTM\\Anul 2\\Semestrul 4\\LFPC\\Laborator1\\FiniteAutomata\\FiniteAutomata.csproj",
+      "projectUniqueName": "D:\\UTM\\Anul 2\\Semestrul 4\\LFPC\\Laborator2\\NFAtoDFA\\NFA\\NFA.csproj",
+      "projectName": "NFA",
+      "projectPath": "D:\\UTM\\Anul 2\\Semestrul 4\\LFPC\\Laborator2\\NFAtoDFA\\NFA\\NFA.csproj",
       "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-      "outputPath": "D:\\UTM\\Anul 2\\Semestrul 4\\LFPC\\Laborator1\\FiniteAutomata\\obj\\",
+      "outputPath": "D:\\UTM\\Anul 2\\Semestrul 4\\LFPC\\Laborator2\\NFAtoDFA\\NFA\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config",

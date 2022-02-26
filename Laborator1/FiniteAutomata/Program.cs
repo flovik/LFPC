@@ -28,7 +28,7 @@ namespace FiniteAutomata
             //S is the starting point and the currentState
             var startState = stateDictionary["S"];
             var currentState = stateDictionary["S"];
-
+            
             foreach (var (_, value) in stateDictionary)
             {
                 states.Add(value);

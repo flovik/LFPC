@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1c7d1517-185d-4039-9a88-559b62f8f0a6": {
+      "ProjectGuid": "1c7d1517-185d-4039-9a88-559b62f8f0a6",
+      "DisplayName": "FiniteAutomata",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

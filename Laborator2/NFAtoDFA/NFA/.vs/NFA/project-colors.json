@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b38289a0-c1e8-460c-8dd1-e5a3b5954def": {
+      "ProjectGuid": "b38289a0-c1e8-460c-8dd1-e5a3b5954def",
+      "DisplayName": "NFA",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

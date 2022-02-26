@@ -4,7 +4,6 @@ D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\bin\Debug\netcoreapp3.1
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\bin\Debug\netcoreapp3.1\FiniteAutomata.runtimeconfig.dev.json
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\bin\Debug\netcoreapp3.1\FiniteAutomata.dll
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\bin\Debug\netcoreapp3.1\FiniteAutomata.pdb
-D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.csprojAssemblyReference.cache
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.GeneratedMSBuildEditorConfig.editorconfig
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.AssemblyInfoInputs.cache
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.AssemblyInfo.cs
@@ -12,3 +11,4 @@ D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.dll
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.pdb
 D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.genruntimeconfig.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator1\FiniteAutomata\obj\Debug\netcoreapp3.1\FiniteAutomata.csproj.AssemblyReference.cache

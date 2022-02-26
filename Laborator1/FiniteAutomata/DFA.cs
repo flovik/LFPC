@@ -24,7 +24,9 @@ namespace FiniteAutomata
         }
 
         public void PrintAutomaton()
-        {
+        {   
+
+            //analytical representation
             Console.Write("States: ");
             foreach (var state in _states)
             {
@@ -56,6 +58,48 @@ namespace FiniteAutomata
             {
                 Console.WriteLine($"{from},{symbol} -> {to}");
             }
+
+            //transition table
+            Console.WriteLine();
+            string[,] table = new string[_states.Count + 1, _alphabet.Count + 1];
+            for (int i = 0; i < _states.Count; i++)
+            {
+                table[i + 1, 0] = _states[i];
+            }
+
+            for (int i = 0; i < _alphabet.Count; i++)
+            {
+                table[0, i + 1] = _alphabet[i];
+            }
+
+            for (int i = 1; i < table.GetLength(0); i++)
+            {
+                for (int j = 1; j < table.GetLength(1); j++)
+                {
+                    if (_transitions.ContainsKey(new Tuple<string, string>(table[i, 0], table[0, j])))
+                    {
+                        var temp = new Tuple<string, string>(table[i, 0], table[0, j]);
+                        table[i,j] = _transitions[temp];
+                    }
+                    else
+                    {
+                        table[i, j] = "-";
+                    }
+                }
+            }
+
+            for (int i = 0; i < table.GetLength(0); i++)
+            {
+                for (int j = 0; j < table.GetLength(1); j++)
+                {
+                    Console.Write(String.Format("{0}\t", table[i, j]));
+                }
+
+                Console.WriteLine();
+
+                
+            }
+
         }
 
         public string CheckString(string input)

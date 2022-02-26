@@ -1,0 +1,14 @@
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\bin\Debug\netcoreapp3.1\NFA.exe
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\bin\Debug\netcoreapp3.1\NFA.deps.json
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\bin\Debug\netcoreapp3.1\NFA.runtimeconfig.json
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\bin\Debug\netcoreapp3.1\NFA.runtimeconfig.dev.json
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\bin\Debug\netcoreapp3.1\NFA.dll
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\bin\Debug\netcoreapp3.1\NFA.pdb
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.GeneratedMSBuildEditorConfig.editorconfig
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.AssemblyInfoInputs.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.AssemblyInfo.cs
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.csproj.CoreCompileInputs.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.dll
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.pdb
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.genruntimeconfig.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator2\NFAtoDFA\NFA\obj\Debug\netcoreapp3.1\NFA.csproj.AssemblyReference.cache
