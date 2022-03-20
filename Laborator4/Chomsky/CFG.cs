@@ -25,6 +25,9 @@ namespace Chomsky
             RemoveUnitTransitions();
             Console.WriteLine("Grammar after removing unit transitions: ");
             PrintTransitions();
+            RemoveNonProductiveTransactions();
+            Console.WriteLine("Grammar after removing non productive transitions: ");
+            PrintTransitions();
         }
 
         private void PrintTransitions()
@@ -155,6 +158,68 @@ namespace Chomsky
                     }
                 }
 
+            }
+        }
+
+        private void RemoveNonProductiveTransactions()
+        {
+            //add NonTerminals that will be used to check non productive
+            var nonTerminals = new HashSet<string>();
+            foreach (var (key, list) in Transitions)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].Length == 1 && char.IsLower(char.Parse(list[i])))
+                    {
+                        nonTerminals.Add(key);
+                    }
+                }
+            }
+
+            //check Transitions once more, substituting known nonTerminals in unknown nonTerminals
+            //if new are found, do another iteration in case other unknowns are found
+            int iteration = 1;
+            while (iteration != 0)
+            {
+                foreach (var (key, list) in Transitions)
+                {
+                    if(nonTerminals.Contains(key)) continue;
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        for (int j = 0; j < list[i].Length; j++)
+                        {
+                            if (nonTerminals.Contains(list[i][j].ToString()))
+                            {
+                                nonTerminals.Add(key);
+                                iteration++;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                iteration--;
+            }
+
+            //remove all occurrences of that key
+            foreach (var (key, list) in Transitions)
+            {
+                if (!nonTerminals.Contains(key))
+                {
+                    //remove the key itself
+                    Transitions.Remove(key);
+
+                    //now remove occurrences
+                    foreach (var (tempKey, tempList) in Transitions)
+                    {
+                        for (int i = 0; i < tempList.Count; i++)
+                        {
+                            //removes every occurrence of non productive state
+                            Transitions[tempKey].RemoveAll(state => state.Contains(key));
+                        }
+                    }
+                }
             }
         }
     }
