@@ -28,6 +28,9 @@ namespace Chomsky
             RemoveNonProductiveTransactions();
             Console.WriteLine("Grammar after removing non productive transitions: ");
             PrintTransitions();
+            RemoveInaccessibleTransactions();
+            Console.WriteLine("Grammar after removing inaccessible transitions: ");
+            PrintTransitions();
         }
 
         private void PrintTransitions()
@@ -183,6 +186,7 @@ namespace Chomsky
             {
                 foreach (var (key, list) in Transitions)
                 {
+                    //
                     if(nonTerminals.Contains(key)) continue;
 
                     for (int i = 0; i < list.Count; i++)
@@ -219,6 +223,31 @@ namespace Chomsky
                             Transitions[tempKey].RemoveAll(state => state.Contains(key));
                         }
                     }
+                }
+            }
+        }
+
+        private void RemoveInaccessibleTransactions()
+        {
+            //find NonTerminals in the RHS
+            var nonTerminals = new HashSet<string> {"S"}; //S is accessible by default
+            foreach (var (key, list) in Transitions)
+            {
+                foreach (var state in list)
+                {
+                    foreach (var ch in state)
+                    {
+                        if (char.IsUpper(ch)) nonTerminals.Add(ch.ToString());
+                    }
+                }
+            }
+
+            //remove those that are not in the RHS
+            foreach (var (key, list) in Transitions)
+            {
+                if (!nonTerminals.Contains(key))
+                {
+                    Transitions.Remove(key);
                 }
             }
         }
