@@ -17,8 +17,13 @@ namespace Chomsky
 
         public void ConvertCfGtoCnf()
         {
+            Console.WriteLine("Context free grammar: ");
             PrintTransitions();
             RemoveNullTransitions();
+            Console.WriteLine("Grammar after removing null transitions: ");
+            PrintTransitions();
+            RemoveUnitTransitions();
+            Console.WriteLine("Grammar after removing unit transitions: ");
             PrintTransitions();
         }
 
@@ -95,6 +100,58 @@ namespace Chomsky
                                 }
                             }
                         }
+                    }
+                }
+
+            }
+        }
+
+        private void RemoveUnitTransitions()
+        {
+            //check if Transitions still have unit 
+            while (Helper.HasUnit(Transitions))
+            {
+                var unitList = new Dictionary<string, List<string>>(); //in case S -> A, S -> B
+                foreach (var (key, list) in Transitions)
+                {
+                    //adding the states into the array
+                    int size = list.Count;
+                    for (int i = 0; i < size; i++)
+                    {
+                        if (list[i].Length == 1 && char.IsUpper(char.Parse(list[i]))) 
+                        {
+                            if (!unitList.ContainsKey(key))
+                            {
+                                unitList.Add(key, new List<string>() { list[i] });
+                            }
+                            else
+                            {
+                                unitList[key].Add(list[i]);
+                            }
+                            
+                        }
+                    }
+                }
+
+                foreach (var (unit, list) in unitList)
+                {
+
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        //remove that unit from Transitions
+                        Transitions[unit].Remove(list[i]);
+
+                        //S -> A, A -> ... many states, add all states from A to S
+                        //for every outgoing state, add to the unit all the states
+                        foreach (var state in Transitions[list[i]])
+                        {
+                            //don't add if we have duplicates
+                            if (!Transitions[unit].Contains(state))
+                            {
+                                Transitions[unit].Add(state);
+                            }
+                        }
+
                     }
                 }
 

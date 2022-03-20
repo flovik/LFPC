@@ -53,5 +53,16 @@ namespace Chomsky
 
             return list;
         }
+
+        internal bool HasUnit(Dictionary<string, List<string>> transitions)
+        {
+            //checks if any state is of length 1 and is uppercase
+            foreach (var (_, list) in transitions)
+            {
+                if (list.Any(state => state.Length == 1 && state.Any(char.IsUpper))) return true;
+            }
+
+            return false;
+        }
     }
 }
