@@ -4,7 +4,7 @@ S>B
 S>aA
 A>ε
 A>aS
-A>ABAb
+A>ABAbBB
 B>a
 B>AbSA
 C>abC

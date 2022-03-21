@@ -64,5 +64,16 @@ namespace Chomsky
 
             return false;
         }
+
+        internal bool HasLong(Dictionary<string, List<string>> transitions)
+        {
+            //checks if grammar has states longer than 2
+            foreach (var (_, list) in transitions)
+            {
+                if (list.Any(state => state.Length > 2)) return true;
+            }
+
+            return false;
+        }
     }
 }
