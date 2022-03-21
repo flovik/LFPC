@@ -1,0 +1,10 @@
+﻿S>A
+A>aX
+A>bX
+X>ε
+X>BX
+X>b
+B>AD
+D>aD
+D>a
+C>Ca
