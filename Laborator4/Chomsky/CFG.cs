@@ -31,6 +31,9 @@ namespace Chomsky
             RemoveInaccessibleTransactions();
             Console.WriteLine("Grammar after removing inaccessible transitions: ");
             PrintTransitions();
+            ChomskyNormalForm();
+            Console.WriteLine("Chomsky normal form: ");
+            PrintTransitions();
         }
 
         private void PrintTransitions()
@@ -186,7 +189,6 @@ namespace Chomsky
             {
                 foreach (var (key, list) in Transitions)
                 {
-                    //
                     if(nonTerminals.Contains(key)) continue;
 
                     for (int i = 0; i < list.Count; i++)
@@ -250,6 +252,62 @@ namespace Chomsky
                     Transitions.Remove(key);
                 }
             }
+        }
+
+        private void ChomskyNormalForm()
+        {
+            NormalizeTerminalAndNonTerminal();
+            NormalizeManySymbols();
+        }
+
+        private void NormalizeTerminalAndNonTerminal()
+        {
+            //change transactions with terminals and non terminals
+            var rules = new Dictionary<string, string>();
+            char constant = '\u03B1';
+            foreach (var (key, list) in Transitions)
+            {
+                for(int i = 0; i < list.Count; i++) 
+                {
+                    if (list[i].Length > 1) //consider states with length >= 2
+                    {
+                        for (int j = 0; j < list[i].Length; j++)
+                        {
+                            if (char.IsLower(list[i][j]))
+                            {
+                                //check if we have in rules that substitution 
+                                if (rules.ContainsKey(list[i][j].ToString()))
+                                {
+                                    //take substring before terminal, the changed terminal and after terminal substring
+                                    string subState = list[i][..j] +
+                                                      rules[list[i][j].ToString()] +
+                                                      list[i][++j..];
+                                    Transitions[key][i] = subState;
+                                }
+                                else
+                                {
+                                    rules[list[i][j].ToString()] = $"{constant++}";
+                                    string subState = list[i][..j] +
+                                                      rules[list[i][j].ToString()] +
+                                                      list[i][++j..];
+                                    Transitions[key][i] = subState;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //add every new rule to the transition table
+            foreach (var (key, value) in rules)
+            {
+                Transitions[value] = new List<string> {key};
+            }
+        }
+        private void NormalizeManySymbols()
+        {
+            //change transactions with more than 2 symbols
+
         }
     }
 }
