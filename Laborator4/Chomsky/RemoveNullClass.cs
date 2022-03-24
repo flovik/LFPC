@@ -61,7 +61,9 @@ namespace Chomsky
                             if (compositeEpsilon == 1)
                             {
                                 string add = list[i].Replace(epsilon, "");
-                                transitions[key].Add(add);
+                                //avoid duplicates
+                                if(!transitions[key].Contains(add))
+                                    transitions[key].Add(add);
                             }
                             else
                             {
@@ -98,12 +100,17 @@ namespace Chomsky
                     {
                         //take substring before that A and after that A
                         string subState = state[..i] + state[++i..];
-                        if (!list.Contains(subState))
+                        if (subState.Length == 0) //handle if multiple A's result in a empty string
+                        {
+                            list.Add("ε");
+                        }
+                        else if (!list.Contains(subState))
                         {
                             //handles duplicates
                             queue.Enqueue(subState);
                             list.Add(subState);
                         }
+                        
                     }
                 }
 

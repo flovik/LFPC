@@ -1,0 +1,13 @@
+﻿S>aB
+S>bA
+S>A
+B>b
+B>bS
+B>aD
+B>ε
+A>B
+A>AS
+A>bBAB
+A>b
+C>Ba
+D>AA
