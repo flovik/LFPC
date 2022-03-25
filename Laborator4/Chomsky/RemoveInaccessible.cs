@@ -13,22 +13,34 @@ namespace Chomsky
         internal void FindNonTerminals(Dictionary<string, List<string>> transitions)
         {
             //find NonTerminals in the RHS
-            foreach (var (key, list) in transitions)
+            int iteration = 1;
+            while (iteration != 0)
             {
-                foreach (var state in list)
+                //iterate every reachable state if you can reach other states, start from S
+                int size = nonTerminals.Count;
+                foreach (var reachableTerminal in nonTerminals.ToList())
                 {
-                    foreach (var ch in state)
+                    foreach (var potentialReachable in transitions[reachableTerminal]) //check just the list of reachable states!
                     {
-                        if (char.IsUpper(ch)) nonTerminals.Add(ch.ToString());
+                        foreach (var ch in potentialReachable) 
+                        {
+                            if (char.IsUpper(ch) && !nonTerminals.Contains(ch.ToString()))
+                            {
+                                nonTerminals.Add(ch.ToString());
+                                iteration++;
+                            }
+                        }
                     }
                 }
+
+                iteration--;
             }
         }
 
         internal void RemoveNonTerminals(Dictionary<string, List<string>> transitions)
         {
             //remove those that are not in the RHS
-            foreach (var (key, list) in transitions)
+            foreach (var (key, _) in transitions)
             {
                 if (!nonTerminals.Contains(key))
                 {

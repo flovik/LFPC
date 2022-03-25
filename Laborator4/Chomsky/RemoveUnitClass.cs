@@ -50,16 +50,17 @@ namespace Chomsky
                 for (int i = 0; i < list.Count; i++)
                 {
                     //remove that unit from Transitions
+                    //S -> B remove
                     transitions[unit].Remove(list[i]);
 
                     //S -> A, A -> ... many states, add all states from A to S
                     //for every outgoing state, add to the unit all the states
-                    foreach (var state in transitions[list[i]])
+                    foreach (var state in transitions[list[i]]) //iterate the list of B
                     {
                         //don't add if we have duplicates
                         if (!transitions[unit].Contains(state))
                         {
-                            transitions[unit].Add(state);
+                            transitions[unit].Add(state); //add in S all states of B
                         }
                     }
                 }

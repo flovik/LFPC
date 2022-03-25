@@ -9,7 +9,7 @@ namespace Chomsky
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.Unicode;
-            var lines = System.IO.File.ReadAllLines(@"D:\UTM\Anul 2\Semestrul 4\LFPC\LFPC\Laborator4\Chomsky\source.txt");
+            var lines = System.IO.File.ReadAllLines(@"D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator4\Chomsky\source2.txt");
             var transitions = Initialize(lines);
             var cfg = new CFG(transitions);
             cfg.ConvertCfGtoCnf();

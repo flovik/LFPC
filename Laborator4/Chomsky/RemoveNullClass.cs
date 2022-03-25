@@ -57,6 +57,7 @@ namespace Chomsky
                         {
                             //S -> aA, A -> ε
                             //have to check in case we have multiple epsilonStates in the currentString
+                            //how many A's we have
                             var compositeEpsilon = list[i].Count(ch => ch == char.Parse(epsilon));
                             if (compositeEpsilon == 1)
                             {
@@ -88,7 +89,7 @@ namespace Chomsky
             //ABAs, BAAs
             //ABs, BAs
             //Bs
-            var list = new List<string>();
+            var list = new List<string>(); //temp list that will store all decomposed states
             var queue = new Queue<string>();
             queue.Enqueue(input);
             while (queue.Count != 0)
@@ -96,7 +97,7 @@ namespace Chomsky
                 string state = queue.Peek();
                 for (int i = 0; i < state.Length; i++)
                 {
-                    if (state[i] == char.Parse(epsilonState))
+                    if (state[i] == char.Parse(epsilonState)) //if currentChar is A
                     {
                         //take substring before that A and after that A
                         string subState = state[..i] + state[++i..];
@@ -104,9 +105,8 @@ namespace Chomsky
                         {
                             list.Add("ε");
                         }
-                        else if (!list.Contains(subState))
+                        else if (!list.Contains(subState)) //handles duplicates
                         {
-                            //handles duplicates
                             queue.Enqueue(subState);
                             list.Add(subState);
                         }

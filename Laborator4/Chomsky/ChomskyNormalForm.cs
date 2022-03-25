@@ -9,7 +9,7 @@ namespace Chomsky
     internal class ChomskyNormalForm
     {
         private char constant = '\u03B1';
-        internal void NormalizeTerminalAndNonTerminal(Dictionary<string, List<string>> transitions)
+        internal void NormalizeTerminals(Dictionary<string, List<string>> transitions)
         {
             //change transactions with terminals and non terminals
             var rules = new Dictionary<string, string>();
@@ -21,7 +21,7 @@ namespace Chomsky
                     {
                         for (int j = 0; j < list[i].Length; j++)
                         {
-                            if (char.IsLower(list[i][j]))
+                            if (char.IsLower(list[i][j])) //change all terminals, all
                             {
                                 //check if we have in rules that substitution 
                                 if (rules.ContainsKey(list[i][j].ToString()))
@@ -34,6 +34,7 @@ namespace Chomsky
                                 }
                                 else
                                 {
+                                    //a -> X1 (greek letter in my case)
                                     rules[list[i][j].ToString()] = $"{constant++}";
                                     string subState = list[i][..j] +
                                                       rules[list[i][j].ToString()] +
@@ -70,15 +71,16 @@ namespace Chomsky
                             var subStates = new List<string>();
                             for (int j = 0; j < size; j += 2)
                             {
+                                //take all the pairs of big state
                                 var subState = list[i].Substring(j, 2);
                                 subStates.Add(subState);
                             }
 
-                            foreach (var state in subStates)
+                            foreach (var state in subStates) //now change all that pairs
                             {
                                 if (!rules.ContainsKey(state))
                                 {
-                                    //add the new rule and replace old Varible with new
+                                    //add the new rule and replace old Variable with new
                                     rules.Add(state, constant.ToString());
                                     string changedState = list[i].Replace(state, rules[state]);
                                     transitions[key][i] = changedState;

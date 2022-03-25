@@ -18,7 +18,7 @@ namespace Chomsky
                 {
                     if (list[i].Length == 1 && char.IsLower(char.Parse(list[i])))
                     {
-                        nonTerminals.Add(key);
+                        nonTerminals.Add(key); //add NonTerminal states that CAN go in only 1 Terminal 
                     }
                 }
             }
@@ -33,8 +33,9 @@ namespace Chomsky
             {
                 foreach (var (key, list) in transitions)
                 {
-                    if (nonTerminals.Contains(key)) continue;
+                    if (nonTerminals.Contains(key)) continue; //skip states that are proven to be productive
 
+                    //now check those that can be productive
                     for (int i = 0; i < list.Count; i++)
                     {
                         var toBeCheckedNonTerminals = new List<string>();
@@ -45,10 +46,11 @@ namespace Chomsky
                         }
 
                         //checks if all are Known Non Terminals!
-                        if (toBeCheckedNonTerminals.All(nonTerminal => char.IsUpper(nonTerminal[0])))
+                        if (toBeCheckedNonTerminals.All(nonTerminal => nonTerminals.Contains(nonTerminal)))
                         {
                             nonTerminals.Add(key);
                             iteration++;
+                            break;
                         }
                     }
                 }

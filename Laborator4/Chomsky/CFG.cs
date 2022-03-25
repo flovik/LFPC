@@ -93,7 +93,9 @@ namespace Chomsky
 
         private void CNF()
         {
-           ChomskyNormalForm.NormalizeTerminalAndNonTerminal(Transitions);
+           ChomskyNormalForm.NormalizeTerminals(Transitions);
+           Console.WriteLine("Grammar after normalizing terminals: ");
+           PrintTransitions();
            ChomskyNormalForm.NormalizeManySymbols(Transitions);
         }
 
