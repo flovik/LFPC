@@ -9,8 +9,10 @@ namespace SimplePrecedence
         {
             Console.OutputEncoding = Encoding.Unicode;
             var lines = System.IO.File.ReadAllLines(@"D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\source.txt");
-            var transitions = Initialize(lines);
-            var spp = new SimplePrecedence(transitions);
+            var terminals = lines[0].Split(',').ToList();
+            var nonTerminals = lines[1].Split(',').ToList();
+            var transitions = Initialize(lines[2..]);
+            var spp = new SimplePrecedence(transitions, terminals, nonTerminals);
             spp.Start();
         }
 

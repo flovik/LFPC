@@ -1,4 +1,6 @@
-﻿S>B
+﻿S,A,B,C,D
+a,b,c,d,e
+S>B
 B>C
 B>CcB
 C>adD
