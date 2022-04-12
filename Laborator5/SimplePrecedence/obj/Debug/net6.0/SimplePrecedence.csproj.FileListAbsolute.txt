@@ -1,0 +1,15 @@
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\bin\Debug\net6.0\SimplePrecedence.exe
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\bin\Debug\net6.0\SimplePrecedence.deps.json
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\bin\Debug\net6.0\SimplePrecedence.runtimeconfig.json
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\bin\Debug\net6.0\SimplePrecedence.dll
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\bin\Debug\net6.0\ref\SimplePrecedence.dll
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\bin\Debug\net6.0\SimplePrecedence.pdb
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.csproj.AssemblyReference.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.GeneratedMSBuildEditorConfig.editorconfig
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.AssemblyInfoInputs.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.AssemblyInfo.cs
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.csproj.CoreCompileInputs.cache
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.dll
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\ref\SimplePrecedence.dll
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.pdb
+D:\UTM\Anul 2\Semestrul 4\LFPC\Laborator5\SimplePrecedence\obj\Debug\net6.0\SimplePrecedence.genruntimeconfig.cache
