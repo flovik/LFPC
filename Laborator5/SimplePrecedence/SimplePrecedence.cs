@@ -177,7 +177,7 @@ namespace SimplePrecedence
 
         public void CheckString(string input)
         {
-            var word = ParseInput("$" + input);
+            var word = ParseInput("$<" + input);
             if (word == null)
             {
                 Console.WriteLine("Rejected");
@@ -256,8 +256,19 @@ namespace SimplePrecedence
         private StringBuilder? ParseInput(string input)
         {
             //construct initial string with operators
-            for (int i = 1; i < input.Length; i++)
+            for (int i = 3; i < input.Length; i++)
             {
+                //handle case when input is incorrect
+                if (!(_nonTerminals.Contains(input[i - 1].ToString()) ^ _terminals.Contains(input[i - 1].ToString())))
+                {
+                    return null;
+                }
+
+                if (!(_nonTerminals.Contains(input[i].ToString()) ^ _terminals.Contains(input[i].ToString())))
+                {
+                    return null;
+                }
+
                 int first = _indexes[input[i - 1]];
                 int second = _indexes[input[i]];
                 if (_matrix[first, second] == '\0') return null; //not a valid relation

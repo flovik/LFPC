@@ -14,12 +14,12 @@ namespace SimplePrecedence
             var transitions = Initialize(lines[2..]);
             var spp = new SimplePrecedence(transitions, terminals, nonTerminals);
             //spp.Start();
-            //spp.CheckString("adabcd");
-            //spp.CheckString("adbbecadbe");
-            //spp.CheckString("adbecd");
-            //spp.CheckString("adAecB");
-            //spp.CheckString("adAeca");
-            //spp.CheckString("DcbbbecC");
+            //spp.CheckString("adabcd"); //rej
+            //spp.CheckString("adbbecadbe"); //acc
+            //spp.CheckString("adbecd"); //acc
+            //spp.CheckString("adAecB"); //acc
+            //spp.CheckString("adAeca"); //rej
+            //spp.CheckString("DcbbbecC"); //rej
 
             Console.WriteLine("N - stop program");
             Console.WriteLine("M - print matrix");
