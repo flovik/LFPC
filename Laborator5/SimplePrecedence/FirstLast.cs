@@ -10,11 +10,11 @@ namespace SimplePrecedence
     {
         public Dictionary<char, List<char>> First = new();
         public Dictionary<char, List<char>> Last = new();
-        private Dictionary<string, List<string>> Transitions;
+        private Dictionary<string, List<string>> _transitions;
 
         public void Start(Dictionary<string, List<string>> transitions)
         {
-            Transitions = transitions;
+            _transitions = transitions;
             PopulateFirstSet();
             PopulateLastSet();
             AddStates(First);
@@ -23,7 +23,7 @@ namespace SimplePrecedence
 
         private void PopulateFirstSet()
         {
-            foreach (var (key, list) in Transitions)
+            foreach (var (key, list) in _transitions)
             {
                 foreach (var word in list)
                 {
@@ -44,7 +44,7 @@ namespace SimplePrecedence
 
         private void PopulateLastSet()
         {
-            foreach (var (key, list) in Transitions)
+            foreach (var (key, list) in _transitions)
             {
                 foreach (var word in list)
                 {
@@ -88,7 +88,6 @@ namespace SimplePrecedence
                 iteration--;
             }
         }
-
 
         public void Print(Dictionary<char, List<char>> map)
         {

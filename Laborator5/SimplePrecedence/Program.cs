@@ -13,7 +13,56 @@ namespace SimplePrecedence
             var nonTerminals = lines[1].Split(',').ToList();
             var transitions = Initialize(lines[2..]);
             var spp = new SimplePrecedence(transitions, terminals, nonTerminals);
-            spp.Start();
+            //spp.Start();
+            //spp.CheckString("adabcd");
+            //spp.CheckString("adbbecadbe");
+            //spp.CheckString("adbecd");
+            //spp.CheckString("adAecB");
+            //spp.CheckString("adAeca");
+            //spp.CheckString("DcbbbecC");
+
+            Console.WriteLine("N - stop program");
+            Console.WriteLine("M - print matrix");
+            Console.WriteLine("T - print transitions");
+            Console.WriteLine("F - print First/Last Set");
+            Console.WriteLine("S - convert grammar to Simple Precedence");
+            Console.WriteLine("Q - check string");
+
+            while (true)
+            {
+                var userInput = Console.ReadLine();
+                if (userInput == "N") break;
+
+                switch (userInput)
+                {
+                    case "M":
+                        spp.PrintMatrix();
+                        break;
+                    case "T":
+                        spp.PrintTransitions();
+                        break;
+                    case "F":
+                        spp.PrintFirstAndLast();
+                        break;
+                    case "S":
+                        spp.Start();
+                        break;
+                    case "Q":
+                        {
+                            Console.WriteLine("Press Q when you want to stop checking strings");
+                            while (true)
+                            {
+                                Console.WriteLine("Type in a string  to check it: ");
+                                var input = Console.ReadLine();
+                                if (input == null) continue;
+                                if (input == "Q") break;
+                                spp.CheckString(input);
+                            }
+
+                            break;
+                        }
+                }
+            }
         }
 
         static Dictionary<string, List<string>> Initialize(string[] path)

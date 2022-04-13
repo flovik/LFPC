@@ -8,22 +8,24 @@ namespace SimplePrecedence
 {
     internal class SimplePrecedence
     {
-        private List<string> Terminals;
-        private List<string> NonTerminals;
-        private Dictionary<char, int> Indexes = new();
-        private char[,] Matrix;
-        private Dictionary<string, List<string>> Transitions;
-        private FirstLast FirstLast = new();
+        private List<string> _terminals;
+        private List<string> _nonTerminals;
+        private Dictionary<char, int> _indexes = new();
+        private char[,] _matrix;
+        private Dictionary<string, List<string>> _transitions;
+        private FirstLast _firstLast = new();
+        private Stack<string> _stack = new();
         public SimplePrecedence(Dictionary<string, List<string>> transitions, List<string> terminals, List<string> nonTerminals)
         {
-            Transitions = transitions;
-            Terminals = terminals;
-            NonTerminals = nonTerminals;
+            _transitions = transitions;
+            _terminals = terminals;
+            _nonTerminals = nonTerminals;
         }
 
-        private void PrintTransitions()
+        public void PrintTransitions()
         {
-            foreach (var (key, list) in Transitions)
+            Console.WriteLine("Transitions: ");
+            foreach (var (key, list) in _transitions)
             {
                 Console.Write($"{key} -> ");
                 for (int i = 0; i < list.Count; i++)
@@ -38,57 +40,62 @@ namespace SimplePrecedence
             Console.WriteLine("--------------");
         }
 
-        private void PrintMatrix()
+        public void PrintMatrix()
         {
-            for (int i = 0; i < Matrix.GetLength(0); i++)
+            Console.WriteLine("Matrix: ");
+            for (int i = 0; i < _matrix.GetLength(0); i++)
             {
-                for (int j = 0; j < Matrix.GetLength(1); j++)
+                for (int j = 0; j < _matrix.GetLength(1); j++)
                 {
-                    if(Matrix[i, j].Equals('\0')) Console.Write(" ");
-                    Console.Write($"{Matrix[i, j]} ");
+                    if (_matrix[i, j].Equals('\0')) Console.Write(" ");
+                    Console.Write($"{_matrix[i, j]} ");
                 }
 
                 Console.WriteLine();
             }
         }
 
+        public void PrintFirstAndLast()
+        {
+            Console.WriteLine("First set: ");
+            _firstLast.Print(_firstLast.First);
+            Console.WriteLine("Last set: ");
+            _firstLast.Print(_firstLast.Last);
+        }
+
         public void Start()
         {
-            FirstLast.Start(Transitions);
-            FirstLast.Print(FirstLast.First);
-            FirstLast.Print(FirstLast.Last);
+            _firstLast.Start(_transitions);
             InitMatrix();
             Rule1();
             Rule2();
             Rule3();
             Rule4();
-            Rule5();
-            PrintMatrix();
         }
 
         private void InitMatrix()
         {
-            var list = Terminals.Concat(NonTerminals).ToList();
+            var list = _terminals.Concat(_nonTerminals).ToList();
             list.Add("$");
-            Matrix = new char[list.Count + 1, list.Count + 1];
+            _matrix = new char[list.Count + 1, list.Count + 1];
             for (int i = 0; i < list.Count; i++)
             {
-                Indexes.Add(list[i][0], i + 1);
-                Matrix[i + 1, 0] = list[i][0];
-                Matrix[0, i + 1] = list[i][0];
+                _indexes.Add(list[i][0], i + 1);
+                _matrix[i + 1, 0] = list[i][0];
+                _matrix[0, i + 1] = list[i][0];
             }
         }
 
         private void AddOperator(char Operator, int rowIndex, int columnIndex)
         {
             //adds an operator to the indicated rowIndex to columnIndex
-            Matrix[rowIndex, columnIndex] = Operator;
+            _matrix[rowIndex, columnIndex] = Operator;
         }
 
         private void Rule1()
         {
             //iterate over words and search for ones of len > 1, then equal the neighbors
-            foreach (var (_, list) in Transitions)
+            foreach (var (_, list) in _transitions)
             {
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -98,7 +105,7 @@ namespace SimplePrecedence
                         {
                             char first = list[i][j - 1];
                             char second = list[i][j];
-                            AddOperator('=', Indexes[first], Indexes[second]);
+                            AddOperator('=', _indexes[first], _indexes[second]);
                         }
                     }
                 }
@@ -108,7 +115,7 @@ namespace SimplePrecedence
         private void Rule2()
         {
             //terminal + NonTerminal, terminal < First(NonTerminal)
-            foreach (var (_, list) in Transitions)
+            foreach (var (_, list) in _transitions)
             {
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -120,9 +127,9 @@ namespace SimplePrecedence
                             char nonTerminal = list[i][j];
                             if (char.IsLower(terminal) && char.IsUpper(nonTerminal)) //the main condition
                             {
-                                foreach (var character in FirstLast.First[nonTerminal]) //search in FIRST(NonTerminal)
+                                foreach (var character in _firstLast.First[nonTerminal]) //search in FIRST(NonTerminal)
                                 {
-                                    AddOperator('<', Indexes[terminal], Indexes[character]);
+                                    AddOperator('<', _indexes[terminal], _indexes[character]);
                                 }
                             }
                         }
@@ -134,7 +141,7 @@ namespace SimplePrecedence
         private void Rule3()
         {
             //NonTerminal to Terminal
-            foreach (var (_, list) in Transitions)
+            foreach (var (_, list) in _transitions)
             {
                 for (int i = 0; i < list.Count; i++)
                 {
@@ -146,9 +153,9 @@ namespace SimplePrecedence
                             char terminal = list[i][j];
                             if (char.IsLower(terminal) && char.IsUpper(nonTerminal)) //the main condition
                             {
-                                foreach (var character in FirstLast.Last[nonTerminal]) //search in LAST(nonTerminal)
+                                foreach (var character in _firstLast.Last[nonTerminal]) //search in LAST(nonTerminal)
                                 {
-                                    AddOperator('>', Indexes[character], Indexes[terminal]);
+                                    AddOperator('>', _indexes[character], _indexes[terminal]);
                                 }
                             }
                         }
@@ -159,42 +166,133 @@ namespace SimplePrecedence
 
         private void Rule4()
         {
-            //NonTerminal to NonTerminal
-            foreach (var (_, list) in Transitions)
+            //add operators for $
+            var list = _terminals.Concat(_nonTerminals).ToList();
+            foreach (var character in list)
             {
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (list[i].Length > 1)
-                    {
-                        for (int j = 1; j < list[i].Length; j++)
-                        {
-                            char nonTerminal1 = list[i][j - 1];
-                            char nonTerminal2 = list[i][j];
-                            if (char.IsUpper(nonTerminal1) && char.IsUpper(nonTerminal2)) //the main condition
-                            {
-                                foreach (var character in FirstLast.Last[nonTerminal1]) //search in LAST(nonTerminal1)
-                                {
-                                    foreach (var terminal in FirstLast.First[nonTerminal2]) //for all TERMINALS in FIRST(nonTerminal2)
-                                    {
-                                        if(char.IsLower(terminal)) AddOperator('>', Indexes[character], Indexes[terminal]);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                AddOperator('<', _indexes['$'], _indexes[character[0]]);
+                AddOperator('>', _indexes[character[0]], _indexes['$']);
             }
         }
 
-        private void Rule5()
+        public void CheckString(string input)
         {
-            //add operators for $
-            var list = Terminals.Concat(NonTerminals).ToList();
-            foreach (var character in list)
+            var word = ParseInput("$" + input);
+            if (word == null)
             {
-                AddOperator('<', Indexes['$'], Indexes[character[0]]);
-                AddOperator('>', Indexes[character[0]], Indexes['$']);
+                Console.WriteLine("Rejected");
+                return;
             }
+
+            //initialize top of stack with $
+            _stack.Push("$");
+            int current = 1;
+            while (word[current] != '$')
+            {
+                if (word[current] == '<')
+                {
+                    //we get a new combination that should be pushed in stack
+                    _stack.Push("<");
+                }
+                else if (word[current] == '>')
+                {
+                    //we get a combination here
+                    string topOfStack = _stack.Pop()[1..];
+                    if (topOfStack == "S") //finish the program if got to S
+                    {
+                        Console.WriteLine("Accepted");
+                        return;
+                    }
+                    //if single letter state, just search in transitions, if not, form the transition and then search
+                    string replace = topOfStack.Length == 1 ? GetReplaceForPop(topOfStack) : ComposeBigState(topOfStack);
+                    if (replace == "")
+                    {
+                        Console.WriteLine("Rejected");
+                        return;
+                    }
+                    //now insert the needed operators in the word to continue parsing
+                    //take the last char of the current top of stack, and the index of replaced char, find their operator in matrix
+                    char leftOperator = _matrix[_indexes[_stack.Peek()[^1]], _indexes[replace[0]]];
+                    //now right operator, index of replaced char and the next char in word
+                    char rightOperator = _matrix[_indexes[replace[0]], _indexes[word[current + 1]]];
+
+                    if (leftOperator == '<')
+                    {
+                        //push to the stack again that replaced char
+                        //be careful with indexes of the word, change CURRENT index in the word with the operator
+                        //then go one back to analyze that char again
+                        _stack.Push("<" + replace);
+                        word[current--] = rightOperator;
+                    }
+                    else if (leftOperator == '>')
+                    {
+                        //set the right Operator
+                        word[current--] = rightOperator;
+                        //set the replaced in the word
+                        word[current--] = replace[0];
+                        //put the > symbol in case it will be parsed
+                        word[current--] = '>';
+                    }
+                    else
+                    {
+                        //equals
+                        //add the modified transition to the top of the stack
+                        string temp = _stack.Pop() + "=" + replace;
+                        _stack.Push(temp);
+                        word[current--] = rightOperator;
+                    }
+                }
+                else
+                {
+                    //append next char to top of stack
+                    var temp = _stack.Pop() + word[current];
+                    _stack.Push(temp);
+                }
+
+                current++;
+            }
+        }
+
+        private StringBuilder? ParseInput(string input)
+        {
+            //construct initial string with operators
+            for (int i = 1; i < input.Length; i++)
+            {
+                int first = _indexes[input[i - 1]];
+                int second = _indexes[input[i]];
+                if (_matrix[first, second] == '\0') return null; //not a valid relation
+                input = input.Insert(i, _matrix[first, second].ToString());
+                i++;
+            }
+
+            input += ">$";
+            StringBuilder result = new StringBuilder(input);
+            return result;
+        }
+
+        private string GetReplaceForPop(string topOfStack)
+        {
+            foreach (var (key, list) in _transitions)
+            {
+                //get the state we need to replace with
+                foreach (var transition in list)
+                {
+                    if (transition.Equals(topOfStack))
+                    {
+                        return key;
+                    }
+                }
+            }
+
+            //if not found that transition, then input string is not correct
+            return "";
+        }
+
+        private string ComposeBigState(string topOfStack)
+        {
+            var miniStates = topOfStack.Split('=').ToList();
+            string state = string.Concat(miniStates);
+            return GetReplaceForPop(state);
         }
     }
 }
