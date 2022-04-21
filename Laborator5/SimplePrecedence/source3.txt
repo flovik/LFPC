@@ -1,0 +1,9 @@
+﻿S,A,T,B,D
+a,b,c,d
+S>dB
+A>TcA
+T>D
+A>D
+B>a
+B>aA
+D>bB

@@ -178,82 +178,97 @@ namespace SimplePrecedence
         public void CheckString(string input)
         {
             var word = ParseInput("$<" + input);
-            if (word == null)
+            if (string.IsNullOrEmpty(word.ToString()))
             {
                 Console.WriteLine("Rejected");
                 return;
             }
 
-            //initialize top of stack with $
-            _stack.Push("$");
-            int current = 1;
-            while (word[current] != '$')
-            {
-                if (word[current] == '<')
-                {
-                    //we get a new combination that should be pushed in stack
-                    _stack.Push("<");
-                }
-                else if (word[current] == '>')
-                {
-                    //we get a combination here
-                    string topOfStack = _stack.Pop()[1..];
-                    if (topOfStack == "S") //finish the program if got to S
-                    {
-                        Console.WriteLine("Accepted");
-                        return;
-                    }
-                    //if single letter state, just search in transitions, if not, form the transition and then search
-                    string replace = topOfStack.Length == 1 ? GetReplaceForPop(topOfStack) : ComposeBigState(topOfStack);
-                    if (replace == "")
-                    {
-                        Console.WriteLine("Rejected");
-                        return;
-                    }
-                    //now insert the needed operators in the word to continue parsing
-                    //take the last char of the current top of stack, and the index of replaced char, find their operator in matrix
-                    char leftOperator = _matrix[_indexes[_stack.Peek()[^1]], _indexes[replace[0]]];
-                    //now right operator, index of replaced char and the next char in word
-                    char rightOperator = _matrix[_indexes[replace[0]], _indexes[word[current + 1]]];
+            Console.WriteLine(word);
+            Parse(word);
+        }
 
-                    if (leftOperator == '<')
-                    {
-                        //push to the stack again that replaced char
-                        //be careful with indexes of the word, change CURRENT index in the word with the operator
-                        //then go one back to analyze that char again
-                        _stack.Push("<" + replace);
-                        word[current--] = rightOperator;
-                    }
-                    else if (leftOperator == '>')
-                    {
-                        //set the right Operator
-                        word[current--] = rightOperator;
-                        //set the replaced in the word
-                        word[current--] = replace[0];
-                        //put the > symbol in case it will be parsed
-                        word[current--] = '>';
-                    }
-                    else
-                    {
-                        //equals
-                        //add the modified transition to the top of the stack
-                        string temp = _stack.Pop() + "=" + replace;
-                        _stack.Push(temp);
-                        word[current--] = rightOperator;
-                    }
+        public void Parse(StringBuilder input)
+        {
+            while (true)
+            {
+                string tempInput = input.ToString();
+                //base case when we get to S, string is accepted
+                if (tempInput.Contains("S"))
+                {
+                    Console.WriteLine("Accepted");
+                    return;
                 }
+
+                //now string checking is going from backwards
+                int left = input.Length - 1, right = input.Length - 1;
+                while (input[left] != '<')
+                {
+                    if (input[left] == '>') right = left;
+                    left--;
+                }
+                
+                //take substring of that state
+                var state = tempInput.Substring(left + 1, right - left - 1);
+
+                //search for all substitutions possible
+                var substitutions = state.Length == 1 ? GetReplaceForPop(state) : ComposeBigState(state);
+                if (substitutions.Count == 0) //no transitions
+                {
+                    Console.WriteLine("Rejected");
+                    return;
+                }
+
+                //in case we have only one transition
+                if (substitutions.Count == 1) state = substitutions[0];
                 else
                 {
-                    //append next char to top of stack
-                    var temp = _stack.Pop() + word[current];
-                    _stack.Push(temp);
+                    //ambiguous case
+                    //as I remember from the class, right = has highest priority, then 
+                    //goes left = and anything else
+                    //make an initial state in case we have only < and >
+                    var changeToState = substitutions[0];
+                    var symbols = new char[2];
+                    symbols[0] = _matrix[_indexes[input[left - 1]], _indexes[changeToState[0]]];
+                    symbols[1] = _matrix[_indexes[changeToState[0]], _indexes[input[right + 1]]];
+                    foreach (var substitution in substitutions)
+                    {
+                        if(substitution.Equals(changeToState)) continue;
+                        var tempLeft = _matrix[_indexes[input[left - 1]], _indexes[substitution[0]]];
+                        var tempRight = _matrix[_indexes[substitution[0]], _indexes[input[right + 1]]];
+                        if (tempRight == '=') //biggest priority found
+                        {
+                            changeToState = substitution;
+                            symbols[0] = tempLeft;
+                            symbols[1] = tempRight;
+                        }
+                        else if (tempLeft == '=' && !symbols[1].Equals('=')) //if got a left = and still no right equal found
+                        {
+                            changeToState = substitution;
+                            symbols[0] = tempLeft;
+                            symbols[1] = tempRight;
+                        }
+                    }
+
+                    state = changeToState;
                 }
 
-                current++;
+                //change the state inside parantheses
+                input.Remove(left + 1, right - left - 1);
+                input.Insert(left + 1, state); //insert into the string the modified state
+                right = left + 2; //we know that after left index we add only a char, so > will be 2 indexes away (in case insert long state)
+
+                // now insert the needed operators in the word to continue parsing
+                char leftOperator = _matrix[_indexes[input[left - 1]], _indexes[input[left + 1]]];
+                char rightOperator = _matrix[_indexes[input[right - 1]], _indexes[input[right + 1]]];
+                input[left] = leftOperator;
+                input[right] = rightOperator;
+                Console.WriteLine(input);
+                ;
             }
         }
 
-        private StringBuilder? ParseInput(string input)
+        private StringBuilder ParseInput(string input)
         {
             //construct initial string with operators
             for (int i = 3; i < input.Length; i++)
@@ -261,28 +276,29 @@ namespace SimplePrecedence
                 //handle case when input is incorrect
                 if (!(_nonTerminals.Contains(input[i - 1].ToString()) ^ _terminals.Contains(input[i - 1].ToString())))
                 {
-                    return null;
+                    return new StringBuilder();
                 }
 
                 if (!(_nonTerminals.Contains(input[i].ToString()) ^ _terminals.Contains(input[i].ToString())))
                 {
-                    return null;
+                    return new StringBuilder();
                 }
 
                 int first = _indexes[input[i - 1]];
                 int second = _indexes[input[i]];
-                if (_matrix[first, second] == '\0') return null; //not a valid relation
+                if (_matrix[first, second] == '\0') return new StringBuilder(); //not a valid relation
                 input = input.Insert(i, _matrix[first, second].ToString());
                 i++;
             }
 
             input += ">$";
-            StringBuilder result = new StringBuilder(input);
+            var result = new StringBuilder(input);
             return result;
         }
 
-        private string GetReplaceForPop(string topOfStack)
+        private List<string> GetReplaceForPop(string topOfStack)
         {
+            var result = new List<string>();
             foreach (var (key, list) in _transitions)
             {
                 //get the state we need to replace with
@@ -290,16 +306,16 @@ namespace SimplePrecedence
                 {
                     if (transition.Equals(topOfStack))
                     {
-                        return key;
+                        result.Add(key);
                     }
                 }
             }
 
             //if not found that transition, then input string is not correct
-            return "";
+            return result.Count != 0 ? result : new List<string>();
         }
 
-        private string ComposeBigState(string topOfStack)
+        private List<string> ComposeBigState(string topOfStack)
         {
             var miniStates = topOfStack.Split('=').ToList();
             string state = string.Concat(miniStates);
